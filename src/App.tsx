@@ -1029,11 +1029,6 @@ export default function App() {
                           <option value="llama-3.1-8b-instant">
                             LLAMA_3.1_8B
                           </option>
-                          <option value="groq/compound">COMPOUND</option>
-                          <option value="groq/compound-mini">
-                            COMPOUND_MINI
-                          </option>
-                          <option value="qwen/qwen3-32b">QWEN3_32B</option>
                         </>
                       ) : (
                         <>
