@@ -1,7 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 # InsightSprint: Deep Intelligence at Scale
 
 > **Transform vague research goals into structured market intelligence in minutes, not weeks.**
@@ -216,9 +212,8 @@ MIT License - feel free to use this project for your own purposes.
 
 ## 🔗 Links
 
-- AI Studio: https://ai.studio/apps/1ad5a1e7-8c84-48ae-a253-f75cec0251f6
-- Groq Console: https://console.groq.com/
-- Gemini API: https://aistudio.google.com/app/apikey
+- [Groq Console](https://console.groq.com/)
+- [Gemini API](https://aistudio.google.com/app/apikey)
 
 ## 💡 Tips
 
