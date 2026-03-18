@@ -1,0 +1,112 @@
+// Unified AI Service - supports both Gemini and Groq
+import { ResearchReport, PageSnippet, ResearchPlan, PlanType } from "../types";
+import * as geminiService from "./researchService";
+import * as groqService from "./groqService";
+
+// Check which AI provider to use
+export function getAIProvider(): "gemini" | "groq" {
+  console.log("GROQ_API_KEY:", process.env.GROQ_API_KEY);
+  console.log(
+    "VITE_GROQ_API_KEY:",
+    (import.meta as any).env?.VITE_GROQ_API_KEY,
+  );
+  const groqKey =
+    process.env.GROQ_API_KEY || (import.meta as any).env?.VITE_GROQ_API_KEY;
+  const geminiKey =
+    process.env.GEMINI_API_KEY || (import.meta as any).env?.VITE_GEMINI_API_KEY;
+
+  // Prefer Groq if available (faster and cheaper)
+  if (groqKey) {
+    console.log("Using Groq AI for research");
+    return "groq";
+  }
+
+  if (geminiKey) {
+    console.log("Using Gemini AI for research");
+    return "gemini";
+  }
+
+  throw new Error(
+    "No AI provider configured. Please add GEMINI_API_KEY or GROQ_API_KEY to your environment variables.",
+  );
+}
+
+// Unified planner
+export async function planResearch(
+  goal: string,
+  mode: string,
+  model?: string,
+): Promise<ResearchPlan> {
+  // Determine provider based on model name
+  const isGroqModel =
+    model?.includes("llama") ||
+    model?.includes("compound") ||
+    model?.includes("qwen");
+
+  if (isGroqModel) {
+    return groqService.planResearchGroq(
+      goal,
+      mode,
+      model || "llama-3.3-70b-versatile",
+    );
+  } else {
+    return geminiService.planResearch(goal, mode, model || "gemini-2.0-flash");
+  }
+}
+
+// Unified data gathering
+export async function fetchPages(
+  goal: string,
+  queries: string[],
+  model?: string,
+): Promise<PageSnippet[]> {
+  const isGroqModel =
+    model?.includes("llama") ||
+    model?.includes("compound") ||
+    model?.includes("qwen");
+
+  if (isGroqModel) {
+    return groqService.fetchPagesGroq(
+      goal,
+      queries,
+      model || "llama-3.3-70b-versatile",
+    );
+  } else {
+    return geminiService.fetchPages(goal, queries, model || "gemini-2.0-flash");
+  }
+}
+
+// Unified synthesis
+export async function synthesizeReport(
+  goal: string,
+  mode: string,
+  plan: ResearchPlan,
+  snippets: PageSnippet[],
+  planType: PlanType,
+  model?: string,
+): Promise<ResearchReport> {
+  const isGroqModel =
+    model?.includes("llama") ||
+    model?.includes("compound") ||
+    model?.includes("qwen");
+
+  if (isGroqModel) {
+    return groqService.synthesizeReportGroq(
+      goal,
+      mode,
+      plan,
+      snippets,
+      planType,
+      model || "llama-3.3-70b-versatile",
+    );
+  } else {
+    return geminiService.synthesizeReport(
+      goal,
+      mode,
+      plan,
+      snippets,
+      planType,
+      model || "gemini-2.0-flash",
+    );
+  }
+}

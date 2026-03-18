@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+
+# Testing
+coverage/
+
+# Environment variables
+.env*
+!.env.example
+
+# OS files
+.DS_Store
+*.log
+
+# IDE
+.vscode
+.idea/
+*.swp
+*.swo
+*~
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Temporary files
+*.tmp
+.cache/
+.temp/
+
+# Social media content (marketing materials)
+social-media-content/
+START-HERE.md
+SOCIAL-MEDIA-OVERVIEW.md

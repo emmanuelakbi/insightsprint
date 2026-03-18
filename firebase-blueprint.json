@@ -1,0 +1,23 @@
+{
+  "entities": {
+    "ResearchReport": {
+      "title": "ResearchReport",
+      "description": "A saved research report with its metadata and results.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The UID of the user who owns this report." },
+        "goal": { "type": "string", "description": "The research goal." },
+        "mode": { "type": "string", "description": "The research mode." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the report was created." },
+        "report": { "type": "object", "description": "The full ResearchReport object." }
+      },
+      "required": ["uid", "goal", "mode", "createdAt", "report"]
+    }
+  },
+  "firestore": {
+    "/research_history/{reportId}": {
+      "schema": "ResearchReport",
+      "description": "Collection of research reports saved by users."
+    }
+  }
+}

@@ -1,0 +1,79 @@
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: research_history
+// Document ID: auto-generated
+// Fields:
+//   - uid: string (required) - The UID of the owner
+//   - goal: string (required) - The research goal
+//   - mode: string (required) - The research mode
+//   - createdAt: string (required, ISO 8601) - Creation timestamp
+//   - report: map (required) - The full report data
+//
+// ===============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+    
+    function uidUnchanged() {
+      return !('uid' in request.resource.data) || request.resource.data.uid == request.auth.uid;
+    }
+    
+    function isValidDateString(dateStr) {
+      return dateStr is string && dateStr.matches("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.*Z?$");
+    }
+
+    function isValidReport(data) {
+      return data.keys().hasAll(['uid', 'goal', 'mode', 'createdAt', 'report']) &&
+             data.uid is string &&
+             data.goal is string && data.goal.size() < 2000 &&
+             data.mode is string &&
+             isValidDateString(data.createdAt) &&
+             data.report is map;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /research_history/{reportId} {
+      // Users can only see their own history
+      allow read: if isAuthenticated() && isDocOwner();
+      
+      // Users can create their own history items
+      allow create: if isAuthenticated() && 
+                      uidUnchanged() && 
+                      isValidReport(request.resource.data) &&
+                      request.resource.data.uid == request.auth.uid;
+      
+      // Users can delete their own history items
+      allow delete: if isAuthenticated() && isDocOwner();
+      
+      // Updates are not allowed for history items to maintain integrity
+      allow update: if false;
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
