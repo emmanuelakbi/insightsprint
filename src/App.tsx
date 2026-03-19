@@ -572,7 +572,9 @@ export default function App() {
 
     const email = user.email;
     if (!email) {
-      setError("Your account has no email address. Please re-login with Google.");
+      setError(
+        "Your account has no email address. Please re-login with Google.",
+      );
       return;
     }
 
@@ -726,9 +728,6 @@ export default function App() {
           </h1>
         </div>
         <div className="text-right hidden sm:block">
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-1">
-            GENAI_ZURICH_HACKATHON_2026
-          </p>
           <div className="flex flex-col items-end">
             <p className="text-sm font-medium max-w-xs">
               AUTOMATED MARKET INTELLIGENCE & AGENTIC RESEARCH PIPELINE.

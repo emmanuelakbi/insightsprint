@@ -16,7 +16,7 @@ export interface PaystackCheckoutOptions {
   onCancel?: () => void;
 }
 
-const PAYSTACK_PUBLIC_KEY = "pk_test_b4b9c8ac682819aa922aa3e8bb375dad47909c1b";
+const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || "";
 const PAYSTACK_INLINE_SRC = "https://js.paystack.co/v1/inline.js";
 
 let paystackInlineLoadPromise: Promise<void> | null = null;
@@ -40,7 +40,9 @@ function ensurePaystackInlineLoaded(): Promise<void> {
 
 export function openPaystackCheckout(options: PaystackCheckoutOptions) {
   if (typeof options.onSuccess !== "function") {
-    console.error("Paystack checkout misconfigured: onSuccess is not a function");
+    console.error(
+      "Paystack checkout misconfigured: onSuccess is not a function",
+    );
     return;
   }
 
@@ -87,4 +89,3 @@ export function openPaystackCheckout(options: PaystackCheckoutOptions) {
       console.error("Failed to load Paystack inline script", e);
     });
 }
-
