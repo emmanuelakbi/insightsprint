@@ -192,7 +192,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
             </a>
           </nav>
           <div className="text-[10px] font-black uppercase opacity-50">
-            © 2026_GENAI_ZURICH_HACKATHON
+            © 2026 InsightSprint
           </div>
         </footer>
       </main>

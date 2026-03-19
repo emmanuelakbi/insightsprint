@@ -39,7 +39,7 @@ export default function Navbar({
               InsightSprint
             </span>
             <span className="text-[10px] font-bold text-gray-500 uppercase">
-              V2.0_STABLE · GENAI_ZURICH
+              V2.0_STABLE
             </span>
           </div>
         </div>
@@ -51,9 +51,7 @@ export default function Navbar({
           >
             Plans
           </button>
-          <button className="hover:text-accent transition-colors">
-            Docs
-          </button>
+          <button className="hover:text-accent transition-colors">Docs</button>
           <button className="hover:text-accent transition-colors">
             Changelog
           </button>
@@ -65,9 +63,7 @@ export default function Navbar({
           </span>
           <span
             className={`text-[10px] font-black px-2 py-0.5 border-2 border-ink uppercase ${
-              plan === "pro"
-                ? "bg-accent text-white"
-                : "bg-white text-ink"
+              plan === "pro" ? "bg-accent text-white" : "bg-white text-ink"
             }`}
           >
             Plan: {plan}
@@ -120,4 +116,3 @@ export default function Navbar({
     </nav>
   );
 }
-
