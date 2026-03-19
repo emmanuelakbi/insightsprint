@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InsightSprint • Asset Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --ink: #121212;
+      --accent: #FF6B35;
+      --white: #FFFFFF;
+      --paper: #F2F2F2;
+      --font-display: "Syne", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    body {
+      font-family: var(--font-mono);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      font-weight: 800;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      position: relative;
+      background: var(--white);
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--white);
+      padding: 0.5rem 1rem;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 12vw, 8rem);
+      line-height: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .accent {
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: 1.125rem;
+      max-width: 600px;
+      margin-bottom: 3rem;
+      font-weight: 500;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--ink);
+      color: var(--white);
+      padding: 1.5rem 2.5rem;
+      border: 4px solid var(--ink);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 6px 6px 0 rgba(18, 18, 18, 0.2);
+    }
+
+    .cta-button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 rgba(18, 18, 18, 0.3);
+    }
+
+    .gallery {
+      background: var(--ink);
+      color: var(--white);
+      padding: 6rem 2rem;
+    }
+
+    .gallery-content {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 6vw, 4rem);
+      margin-bottom: 4rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+
+    .card {
+      background: var(--ink);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-number {
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0.5;
+    }
+
+    .card:hover .card-number {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 1.5rem;
+    }
+
+    canvas {
+      width: 100%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 1.5rem;
+      display: block;
+      background: var(--white);
+    }
+
+    .download-btn {
+      width: 100%;
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--white);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .download-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .card-meta {
+      font-size: 10px;
+      opacity: 0.5;
+      margin-top: 1rem;
+      text-transform: uppercase;
+    }
+
+    .footer {
+      background: var(--white);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-text {
+      font-size: 1.5rem;
+      font-family: var(--font-display);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .footer-copy {
+      font-size: 10px;
+      opacity: 0.5;
+      margin-top: 1rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-content">
+      <span class="badge">Asset_Generator</span>
+      <h1 class="hero-title">
+        Generate<br />
+        <span class="accent">Assets</span>
+      </h1>
+      <p class="hero-desc">
+        Download all SEO-optimized images for InsightSprint. Each asset uses your exact brand fonts and the Activity
+        icon.
+      </p>
+      <a href="#gallery" class="cta-button">
+        <span>View_Gallery</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <section id="gallery" class="gallery">
+    <div class="gallery-content">
+      <h2 class="section-title">Image_Gallery</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[01]</span>
+          </div>
+          <h3 class="card-title">Devpost_Thumbnail</h3>
+          <p class="card-desc">3:2 ratio thumbnail for Devpost project</p>
+          <canvas id="devpost-thumb" width="1500" height="1000"></canvas>
+          <button class="download-btn"
+            onclick="downloadImage('devpost-thumb', 'devpost-thumbnail.png')">Download</button>
+          <div class="card-meta">1500×1000px • PNG • 3:2 Ratio</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[02]</span>
+          </div>
+          <h3 class="card-title">YouTube_Thumbnail</h3>
+          <p class="card-desc">16:9 thumbnail for YouTube videos</p>
+          <canvas id="youtube-thumb" width="1280" height="720"></canvas>
+          <button class="download-btn"
+            onclick="downloadImage('youtube-thumb', 'youtube-thumbnail.png')">Download</button>
+          <div class="card-meta">1280×720px • PNG • 16:9</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[03]</span>
+          </div>
+          <h3 class="card-title">Hero_Banner</h3>
+          <p class="card-desc">3.2:1 aspect ratio hero image for landing page</p>
+          <canvas id="hero-banner" width="1920" height="600"></canvas>
+          <button class="download-btn" onclick="downloadImage('hero-banner', 'hero-banner.png')">Download</button>
+          <div class="card-meta">1920×600px • PNG • 3.2:1</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[03]</span>
+          </div>
+          <h3 class="card-title">YouTube_Thumbnail</h3>
+          <p class="card-desc">16:9 thumbnail for YouTube videos</p>
+          <canvas id="youtube-thumb" width="1280" height="720"></canvas>
+          <button class="download-btn"
+            onclick="downloadImage('youtube-thumb', 'youtube-thumbnail.png')">Download</button>
+          <div class="card-meta">1280×720px • PNG • 16:9</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[04]</span>
+          </div>
+          <h3 class="card-title">Social_Media</h3>
+          <p class="card-desc">Open Graph image for social sharing</p>
+          <canvas id="og-image" width="1200" height="630"></canvas>
+          <button class="download-btn" onclick="downloadImage('og-image', 'og-image.png')">Download</button>
+          <div class="card-meta">1200×630px • PNG</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[05]</span>
+          </div>
+          <h3 class="card-title">Apple_Touch</h3>
+          <p class="card-desc">iOS home screen icon</p>
+          <canvas id="apple-icon" width="180" height="180"></canvas>
+          <button class="download-btn" onclick="downloadImage('apple-icon', 'apple-touch-icon.png')">Download</button>
+          <div class="card-meta">180×180px • PNG</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[06]</span>
+          </div>
+          <h3 class="card-title">PWA_Icon_192</h3>
+          <p class="card-desc">Progressive Web App icon</p>
+          <canvas id="icon-192" width="192" height="192"></canvas>
+          <button class="download-btn" onclick="downloadImage('icon-192', 'icon-192.png')">Download</button>
+          <div class="card-meta">192×192px • PNG</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[07]</span>
+          </div>
+          <h3 class="card-title">PWA_Icon_512</h3>
+          <p class="card-desc">High-resolution PWA icon</p>
+          <canvas id="icon-512" width="512" height="512"></canvas>
+          <button class="download-btn" onclick="downloadImage('icon-512', 'icon-512.png')">Download</button>
+          <div class="card-meta">512×512px • PNG</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[08]</span>
+          </div>
+          <h3 class="card-title">Screenshot</h3>
+          <p class="card-desc">Application screenshot</p>
+          <canvas id="screenshot" width="1280" height="720"></canvas>
+          <button class="download-btn" onclick="downloadImage('screenshot', 'screenshot.png')">Download</button>
+          <div class="card-meta">1280×720px • PNG</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[09]</span>
+          </div>
+          <h3 class="card-title">PWA_Wide</h3>
+          <p class="card-desc">Desktop PWA screenshot</p>
+          <canvas id="screenshot-wide" width="1280" height="720"></canvas>
+          <button class="download-btn"
+            onclick="downloadImage('screenshot-wide', 'screenshot-wide.png')">Download</button>
+          <div class="card-meta">1280×720px • PNG</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+            </svg>
+            <span class="card-number">[10]</span>
+          </div>
+          <h3 class="card-title">PWA_Mobile</h3>
+          <p class="card-desc">Mobile PWA screenshot</p>
+          <canvas id="screenshot-narrow" width="750" height="1334"></canvas>
+          <button class="download-btn"
+            onclick="downloadImage('screenshot-narrow', 'screenshot-narrow.png')">Download</button>
+          <div class="card-meta">750×1334px • PNG</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2">
+        <path
+          d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+      </svg>
+      <span class="footer-text">InsightSprint</span>
+    </div>
+    <div class="footer-copy">© 2026 GenAI Zurich Hackathon</div>
+  </footer>
+
+  <script>
+    const INK = '#121212';
+    const ACCENT = '#FF6B35';
+    const WHITE = '#FFFFFF';
+    const PAPER = '#F2F2F2';
+
+    function drawActivityIcon(ctx, x, y, size, color = ACCENT, strokeWidth = 2) {
+      ctx.save();
+      ctx.translate(x, y);
+      const scale = size / 24;
+      ctx.scale(scale, scale);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = strokeWidth / scale;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(22, 12);
+      ctx.lineTo(19.52, 12);
+      ctx.bezierCurveTo(18.5, 12, 17.7, 12.7, 17.59, 13.46);
+      ctx.lineTo(15.24, 21.82);
+      ctx.bezierCurveTo(15.2, 22, 15.04, 22.1, 14.88, 22.1);
+      ctx.bezierCurveTo(14.72, 22.1, 14.56, 22, 14.52, 21.82);
+      ctx.lineTo(9, 2.18);
+      ctx.bezierCurveTo(8.96, 2, 8.8, 1.9, 8.64, 1.9);
+      ctx.bezierCurveTo(8.48, 1.9, 8.32, 2, 8.28, 2.18);
+      ctx.lineTo(5.93, 10.54);
+      ctx.bezierCurveTo(5.82, 11.3, 5.02, 12, 4, 12);
+      ctx.lineTo(2, 12);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawText(ctx, text, x, y, size, weight = '800', color = INK, align = 'left', font = 'Syne') {
+      ctx.fillStyle = color;
+      ctx.font = `${weight} ${size}px ${font}, sans-serif`;
+      ctx.textAlign = align;
+      ctx.textBaseline = 'top';
+      ctx.fillText(text, x, y);
+    }
+
+    function drawYouTubeThumb() {
+      const canvas = document.getElementById('youtube-thumb');
+      const ctx = canvas.getContext('2d');
+
+      // Dark background for high contrast
+      ctx.fillStyle = INK;
+      ctx.fillRect(0, 0, 1280, 720);
+
+      // Large Activity icon on left
+      drawActivityIcon(ctx, 80, 160, 400, ACCENT, 28);
+
+      // Main title on right side
+      ctx.fillStyle = WHITE;
+      ctx.font = '800 90px Syne';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText('INSIGHT', 560, 200);
+
+      ctx.fillStyle = ACCENT;
+      ctx.font = '800 90px Syne';
+      ctx.fillText('SPRINT', 560, 285);
+
+      // Subtitle
+      ctx.fillStyle = WHITE;
+      ctx.font = '500 26px JetBrains Mono';
+      ctx.textAlign = 'left';
+      ctx.fillText('Deep Intelligence At Scale', 560, 410);
+
+      // Description
+      ctx.font = '400 20px JetBrains Mono';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.fillText('AI-Powered Market Research', 560, 460);
+      ctx.fillText('Automated Intelligence Pipeline', 560, 490);
+
+      // Badge at top
+      ctx.fillStyle = ACCENT;
+      ctx.fillRect(560, 140, 240, 35);
+      ctx.fillStyle = INK;
+      ctx.font = '700 14px JetBrains Mono';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('GENAI_ZURICH_2026', 680, 157);
+
+      // Accent line decoration
+      ctx.fillStyle = ACCENT;
+      ctx.fillRect(560, 540, 600, 4);
+
+      // Bottom text
+      ctx.fillStyle = WHITE;
+      ctx.font = '700 16px JetBrains Mono';
+      ctx.textAlign = 'left';
+      ctx.fillText('WATCH_NOW', 560, 570);
+
+      // Corner decorations
+      ctx.strokeStyle = ACCENT;
+      ctx.lineWidth = 5;
+
+      ctx.beginPath();
+      ctx.moveTo(40, 40);
+      ctx.lineTo(40, 90);
+      ctx.moveTo(40, 40);
+      ctx.lineTo(90, 40);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(1240, 40);
+      ctx.lineTo(1240, 90);
+      ctx.moveTo(1240, 40);
+      ctx.lineTo(1190, 40);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(40, 680);
+      ctx.lineTo(40, 630);
+      ctx.moveTo(40, 680);
+      ctx.lineTo(90, 680);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(1240, 680);
+      ctx.lineTo(1240, 630);
+      ctx.moveTo(1240, 680);
+      ctx.lineTo(1190, 680);
+      ctx.stroke();
+    }
+
+    function drawDevpostThumb() {
+      const canvas = document.getElementById('devpost-thumb');
+      const ctx = canvas.getContext('2d');
+
+      // Background with subtle gradient
+      const gradient = ctx.createLinearGradient(0, 0, 1500, 1000);
+      gradient.addColorStop(0, WHITE);
+      gradient.addColorStop(1, '#fafafa');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 1500, 1000);
+
+      // Top badge - larger
+      ctx.fillStyle = INK;
+      ctx.fillRect(120, 80, 280, 40);
+      ctx.fillStyle = WHITE;
+      ctx.font = '700 16px JetBrains Mono';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('GENAI_ZURICH_2026', 260, 100);
+
+      // Large Activity icon on left side - more centered
+      drawActivityIcon(ctx, 150, 220, 400, ACCENT, 28);
+
+      // Main title on right side - better spacing
+      ctx.fillStyle = INK;
+      ctx.font = '800 110px Syne';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText('INSIGHT', 700, 280);
+
+      ctx.fillStyle = ACCENT;
+      ctx.font = '800 110px Syne';
+      ctx.fillText('SPRINT', 700, 380);
+
+      // Subtitle - much larger
+      ctx.fillStyle = INK;
+      ctx.font = '500 30px JetBrains Mono';
+      ctx.textAlign = 'left';
+      ctx.fillText('Deep Intelligence At Scale', 700, 530);
+
+      // Description - much larger
+      ctx.font = '400 24px JetBrains Mono';
+      ctx.fillText('Automated market intelligence', 700, 590);
+      ctx.fillText('and agentic research pipeline', 700, 625);
+
+      // CTA Button - added
+      ctx.fillStyle = INK;
+      ctx.fillRect(700, 700, 300, 65);
+      ctx.fillStyle = WHITE;
+      ctx.font = '700 18px JetBrains Mono';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('START_RESEARCH', 850, 732);
+
+      // Decorative corner elements - thicker
+      ctx.strokeStyle = ACCENT;
+      ctx.lineWidth = 6;
+
+      // Top-left corner
+      ctx.beginPath();
+      ctx.moveTo(60, 60);
+      ctx.lineTo(60, 110);
+      ctx.moveTo(60, 60);
+      ctx.lineTo(110, 60);
+      ctx.stroke();
+
+      // Top-right corner
+      ctx.beginPath();
+      ctx.moveTo(1440, 60);
+      ctx.lineTo(1440, 110);
+      ctx.moveTo(1440, 60);
+      ctx.lineTo(1390, 60);
+      ctx.stroke();
+
+      // Bottom-left corner
+      ctx.beginPath();
+      ctx.moveTo(60, 940);
+      ctx.lineTo(60, 890);
+      ctx.moveTo(60, 940);
+      ctx.lineTo(110, 940);
+      ctx.stroke();
+
+      // Bottom-right corner
+      ctx.beginPath();
+      ctx.moveTo(1440, 940);
+      ctx.lineTo(1440, 890);
+      ctx.moveTo(1440, 940);
+      ctx.lineTo(1390, 940);
+      ctx.stroke();
+
+      // Version tag at bottom - larger
+      ctx.fillStyle = INK;
+      ctx.font = '700 18px JetBrains Mono';
+      ctx.textAlign = 'right';
+      ctx.fillText('V2.0', 1420, 910);
+    }
+
+    function drawHeroBanner() {
+      const canvas = document.getElementById('hero-banner');
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(0, 0, 1920, 600);
+
+      // Decorative "01"
+      ctx.fillStyle = '#f8f8f8';
+      ctx.font = '800 350px Syne';
+      ctx.textAlign = 'right';
+      ctx.fillText('01', 1850, 100);
+
+      // Badge
+      ctx.fillStyle = INK;
+      ctx.fillRect(80, 58, 160, 20);
+      ctx.fillStyle = WHITE;
+      ctx.font = '700 9px JetBrains Mono';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('AGENTIC_RESEARCH_ENGINE', 160, 68);
+
+      // Accent line
+      ctx.fillStyle = ACCENT;
+      ctx.fillRect(250, 63, 50, 3);
+
+      // Main title
+      drawText(ctx, 'DEEP', 80, 100, 120, '800', INK, 'left', 'Syne');
+      drawText(ctx, 'INTELLIGENCE', 80, 210, 120, '800', ACCENT, 'left', 'Syne');
+      drawText(ctx, 'AT SCALE.', 80, 320, 120, '800', INK, 'left', 'Syne');
+
+      // Description
+      ctx.fillStyle = INK;
+      ctx.font = '500 14px JetBrains Mono';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText('Automated market intelligence and agentic research pipeline.', 80, 470);
+      ctx.fillText('Turn raw goals into comprehensive strategy reports in seconds.', 80, 490);
+
+      // CTA Button
+      ctx.fillStyle = INK;
+      ctx.fillRect(80, 530, 240, 50);
+      ctx.fillStyle = WHITE;
+      ctx.font = '700 14px JetBrains Mono';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('ENTER_PIPELINE', 200, 555);
+
+      // Arrow
+      ctx.strokeStyle = WHITE;
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(280, 555);
+      ctx.lineTo(295, 555);
+      ctx.moveTo(290, 550);
+      ctx.lineTo(295, 555);
+      ctx.lineTo(290, 560);
+      ctx.stroke();
+
+      // Vertical text
+      ctx.save();
+      ctx.translate(15, 300);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillStyle = '#ccc';
+      ctx.font = '700 9px JetBrains Mono';
+      ctx.textAlign = 'center';
+      ctx.fillText('INSIGHT_SPRINT_V2.0', 0, 0);
+      ctx.restore();
+
+      // Activity icon
+      drawActivityIcon(ctx, 8, 540, 16, ACCENT, 2);
+    }
+
+    function drawOGImage() {
+      const canvas = document.getElementById('og-image');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(0, 0, 1200, 630);
+      ctx.strokeStyle = INK;
+      ctx.lineWidth = 6;
+      ctx.strokeRect(3, 3, 1194, 624);
+      drawActivityIcon(ctx, 80, 215, 200, ACCENT, 14);
+      drawText(ctx, 'INSIGHT', 350, 220, 70, '800', INK);
+      drawText(ctx, 'SPRINT', 350, 300, 70, '800', ACCENT);
+      ctx.fillStyle = INK;
+      ctx.font = '500 28px JetBrains Mono';
+      ctx.textAlign = 'left';
+      ctx.fillText('Deep Intelligence At Scale', 350, 400);
+      ctx.fillStyle = INK;
+      ctx.fillRect(350, 470, 380, 45);
+      ctx.fillStyle = WHITE;
+      ctx.font = '700 16px JetBrains Mono';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('AI-POWERED MARKET RESEARCH', 540, 492);
+    }
+
+    function drawAppleIcon() {
+      const canvas = document.getElementById('apple-icon');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(0, 0, 180, 180);
+      drawActivityIcon(ctx, 30, 30, 120, ACCENT, 10);
+    }
+
+    function drawIcon192() {
+      const canvas = document.getElementById('icon-192');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(0, 0, 192, 192);
+      drawActivityIcon(ctx, 32, 32, 128, ACCENT, 10);
+    }
+
+    function drawIcon512() {
+      const canvas = document.getElementById('icon-512');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(0, 0, 512, 512);
+      drawActivityIcon(ctx, 86, 86, 340, ACCENT, 28);
+    }
+
+    function drawScreenshot() {
+      const canvas = document.getElementById('screenshot');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(0, 0, 1280, 720);
+      ctx.fillStyle = INK;
+      ctx.fillRect(0, 0, 1280, 70);
+      drawActivityIcon(ctx, 35, 23, 40, ACCENT, 5);
+      ctx.fillStyle = WHITE;
+      ctx.font = '800 20px Syne';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('INSIGHTSPRINT', 90, 43);
+      ctx.strokeStyle = INK;
+      ctx.lineWidth = 3;
+      ctx.strokeRect(40, 110, 1200, 570);
+      for (let i = 0; i < 3; i++) {
+        const x = 80 + i * 380;
+        ctx.fillStyle = i === 1 ? ACCENT : INK;
+        ctx.fillRect(x, 160, 320, 200);
+        ctx.fillStyle = WHITE;
+        ctx.font = '800 18px Syne';
+        ctx.textAlign = 'center';
+        ctx.fillText(`FEATURE_${i + 1}`, x + 160, 260);
+      }
+      ctx.fillStyle = INK;
+      ctx.font = '500 24px JetBrains Mono';
+      ctx.textAlign = 'center';
+      ctx.fillText('AI-Powered Market Intelligence', 640, 600);
+    }
+
+    function drawScreenshotWide() {
+      const canvas = document.getElementById('screenshot-wide');
+      const ctx = canvas.getContext('2d');
+      const sourceCanvas = document.getElementById('screenshot');
+      ctx.drawImage(sourceCanvas, 0, 0);
+    }
+
+    function drawScreenshotNarrow() {
+      const canvas = document.getElementById('screenshot-narrow');
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(0, 0, 750, 1334);
+      ctx.fillStyle = INK;
+      ctx.fillRect(0, 0, 750, 90);
+      drawActivityIcon(ctx, 35, 33, 40, ACCENT, 5);
+      ctx.fillStyle = WHITE;
+      ctx.font = '800 18px Syne';
+      ctx.textAlign = 'left';
+      ctx.fillText('INSIGHTSPRINT', 90, 53);
+      ctx.strokeStyle = INK;
+      ctx.lineWidth = 3;
+      ctx.strokeRect(40, 130, 670, 1150);
+      for (let i = 0; i < 3; i++) {
+        const y = 190 + i * 320;
+        ctx.fillStyle = i === 1 ? ACCENT : INK;
+        ctx.fillRect(80, y, 590, 240);
+        ctx.fillStyle = WHITE;
+        ctx.font = '800 22px Syne';
+        ctx.textAlign = 'center';
+        ctx.fillText(`FEATURE_${i + 1}`, 375, y + 120);
+      }
+    }
+
+    function downloadImage(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    window.onload = function () {
+      drawDevpostThumb();
+      drawYouTubeThumb();
+      drawHeroBanner();
+      drawOGImage();
+      drawAppleIcon();
+      drawIcon192();
+      drawIcon512();
+      drawScreenshot();
+      drawScreenshotWide();
+      drawScreenshotNarrow();
+    };
+  </script>
+</body>
+
+</html>

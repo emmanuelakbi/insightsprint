@@ -1,10 +1,10 @@
 {
-  "projectId": "elementor-map-api-474715",
-  "appId": "1:587434681139:web:9e9b70cee5a089dd3c9446",
-  "apiKey": "AIzaSyByxWzzN9ntdcTcB2v2je3qa83H5penabY",
-  "authDomain": "elementor-map-api-474715.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-1ad5a1e7-8c84-48ae-a253-f75cec0251f6",
-  "storageBucket": "elementor-map-api-474715.firebasestorage.app",
-  "messagingSenderId": "587434681139",
-  "measurementId": ""
+  "apiKey": "AIzaSyD7z2Xr_0yXAEctmwx5dnJyIBqrkyi4rCU",
+  "authDomain": "insightsprint-ca6ea.firebaseapp.com",
+  "projectId": "insightsprint-ca6ea",
+  "storageBucket": "insightsprint-ca6ea.firebasestorage.app",
+  "messagingSenderId": "922331946637",
+  "appId": "1:922331946637:web:b88f907fb5dbfb0ffa0cc4",
+  "measurementId": "G-TT6XVTCSMJ",
+  "firestoreDatabaseId": "(default)"
 }

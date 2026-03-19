@@ -36,11 +36,15 @@ import {
   doc,
   Timestamp,
   getDocFromServer,
+  setDoc,
+  getDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
 import LandingPage from "./components/LandingPage";
+import Navbar from "./components/Navbar";
+import { openPaystackCheckout } from "./payments/paystack";
 
-const FREE_LIMIT = 20;
+const FREE_LIMIT = 3;
 const PRO_LIMIT = 20;
 
 enum OperationType {
@@ -202,17 +206,18 @@ const PricingModal = ({
               </li>
             </ul>
             <button
-              onClick={() =>
-                alert(
-                  "PRO Plan Coming Soon! Enjoy the current features for free.",
-                )
-              }
-              className={`w-full brutalist-button py-4 text-sm font-black uppercase tracking-widest bg-gray-100 text-gray-400 cursor-not-allowed`}
+              onClick={onUpgrade}
+              disabled={currentPlan === "pro"}
+              className={`w-full brutalist-button py-4 text-sm font-black uppercase tracking-widest ${
+                currentPlan === "pro"
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-accent text-white hover:bg-ink"
+              }`}
             >
-              Coming_Soon
+              {currentPlan === "pro" ? "Current_Plan" : "Go_Pro_Now"}
             </button>
             <p className="text-[10px] font-bold text-center mt-4 text-gray-400 uppercase">
-              * Pro features are currently enabled for all users
+              * Billing handled securely via Paystack
             </p>
           </div>
         </div>
@@ -429,6 +434,21 @@ export default function App() {
   useEffect(() => {
     if (user) {
       setIsLoggingIn(false);
+      // Load subscription info
+      (async () => {
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const snap = await getDoc(userRef);
+          if (snap.exists()) {
+            const data = snap.data() as { plan?: PlanType };
+            if (data.plan) {
+              setPlan(data.plan);
+            }
+          }
+        } catch (e) {
+          console.error("Failed to load subscription info", e);
+        }
+      })();
     }
   }, [user]);
 
@@ -544,6 +564,55 @@ export default function App() {
     }
   };
 
+  const handleUpgradeToPro = async () => {
+    if (!user) {
+      setError("Please login to upgrade to Pro.");
+      return;
+    }
+
+    const email = user.email;
+    if (!email) {
+      setError("Your account has no email address. Please re-login with Google.");
+      return;
+    }
+
+    openPaystackCheckout({
+      email,
+      amountInKobo: 500000, // 5000 NGN
+      metadata: {
+        uid: user.uid,
+        plan: "pro",
+      },
+      onSuccess: (res) => {
+        // Run async Firestore work without making the Paystack callback itself async.
+        void (async () => {
+          try {
+            const userRef = doc(db, "users", user.uid);
+            await setDoc(
+              userRef,
+              {
+                plan: "pro",
+                paymentRef: res.reference,
+                updatedAt: new Date().toISOString(),
+              },
+              { merge: true },
+            );
+            setPlan("pro");
+            setError(null);
+          } catch (e) {
+            console.error("Failed to save subscription", e);
+            setError(
+              "Payment succeeded but we could not save your subscription. Contact support.",
+            );
+          }
+        })();
+      },
+      onCancel: () => {
+        // no-op for now
+      },
+    });
+  };
+
   const deleteHistoryItem = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
@@ -567,12 +636,24 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen p-4 sm:p-8 overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden">
+      <Navbar
+        user={user}
+        isLoggingIn={isLoggingIn}
+        runCount={runCount}
+        plan={plan}
+        freeLimit={FREE_LIMIT}
+        proLimit={PRO_LIMIT}
+        onLogin={handleLogin}
+        onLogout={logout}
+        onOpenHistory={() => setShowHistory(true)}
+        onOpenPricing={() => setShowPricing(true)}
+      />
       {/* Grid Overlay for Aesthetic */}
       <div className="fixed inset-0 pointer-events-none border-[16px] border-ink/5 z-[-1]" />
 
       {/* Header */}
-      <header className="max-w-6xl mx-auto mb-8 sm:mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-4 border-ink pb-6">
+      <header className="max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-6 sm:pb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b-4 border-ink">
         <div className="w-full md:w-auto">
           <div className="flex flex-wrap items-center justify-between md:justify-start gap-2 mb-4">
             <div className="flex items-center gap-3">
@@ -660,7 +741,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto">
+      <main className="max-w-6xl mx-auto px-4 sm:px-8 pb-12">
         <div className="grid lg:grid-cols-[1fr_360px] gap-8 xl:gap-12 items-start">
           {/* Left Column: Input & Results */}
           <div className="space-y-8 sm:space-y-12">
@@ -1082,7 +1163,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="max-w-6xl mx-auto mt-16 border-t-4 border-ink py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+      <footer className="max-w-6xl mx-auto px-4 sm:px-8 mt-16 border-t-4 border-ink py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
         <div className="flex items-center gap-3">
           <Activity className="text-accent w-6 h-6" />
           <span className="text-2xl font-black">INSIGHTSPRINT</span>
@@ -1115,7 +1196,7 @@ export default function App() {
             isOpen={showPricing}
             onClose={() => setShowPricing(false)}
             currentPlan={plan}
-            onUpgrade={() => {}}
+            onUpgrade={handleUpgradeToPro}
           />
         )}
         {showHistory && (

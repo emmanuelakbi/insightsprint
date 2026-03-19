@@ -28,13 +28,16 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
       />
 
       {/* Navigation Rail */}
-      <div className="fixed left-0 top-0 bottom-0 w-12 border-r-2 border-ink hidden lg:flex flex-col items-center py-8 gap-12 z-50 bg-white">
+      <nav
+        className="fixed left-0 top-0 bottom-0 w-12 border-r-2 border-ink hidden lg:flex flex-col items-center py-8 gap-12 z-50 bg-white"
+        aria-label="Main navigation"
+      >
         <div className="[writing-mode:vertical-rl] rotate-180 text-[10px] font-black tracking-[0.3em] uppercase">
           INSIGHT_SPRINT_V2.0
         </div>
         <div className="flex-1 border-l border-ink/20" />
-        <Activity className="w-6 h-6 text-accent" />
-      </div>
+        <Activity className="w-6 h-6 text-accent" aria-hidden="true" />
+      </nav>
 
       {/* Hero Section */}
       <main className="lg:pl-12">
@@ -49,7 +52,10 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
               <span className="bg-ink text-white px-3 py-1 text-[10px] sm:text-xs font-black tracking-widest uppercase">
                 Agentic_Research_Engine
               </span>
-              <div className="h-[2px] w-8 sm:w-12 bg-accent" />
+              <div
+                className="h-[2px] w-8 sm:w-12 bg-accent"
+                aria-hidden="true"
+              />
             </div>
 
             <h1 className="text-[clamp(1.6rem,7.5vw,10rem)] font-black leading-[0.85] tracking-tighter uppercase mb-12">
@@ -72,11 +78,15 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
                   whileTap={{ scale: 0.98 }}
                   onClick={onEnter}
                   className="group relative inline-flex items-center justify-between bg-ink text-white p-6 sm:p-8 border-4 border-ink hover:bg-accent hover:border-accent transition-all duration-300"
+                  aria-label="Enter the InsightSprint research pipeline"
                 >
                   <span className="text-lg sm:text-2xl lg:text-4xl font-black uppercase tracking-tighter">
                     Enter_Pipeline
                   </span>
-                  <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 lg:w-12 lg:h-12 group-hover:translate-x-2 transition-transform" />
+                  <ArrowRight
+                    className="w-6 h-6 sm:w-8 sm:h-8 lg:w-12 lg:h-12 group-hover:translate-x-2 transition-transform"
+                    aria-hidden="true"
+                  />
                 </motion.button>
                 <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-widest opacity-50">
                   <span>[ 20_FREE_RUNS_REMAINING ]</span>
@@ -87,7 +97,10 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
           </motion.div>
 
           {/* Decorative Elements */}
-          <div className="absolute top-24 right-12 hidden xl:block">
+          <div
+            className="absolute top-24 right-12 hidden xl:block"
+            aria-hidden="true"
+          >
             <div className="text-[200px] font-black opacity-[0.03] leading-none select-none">
               01
             </div>
@@ -101,7 +114,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
               <h2 className="text-[clamp(1rem,5vw,2.5rem)] font-black uppercase tracking-tighter whitespace-nowrap">
                 Core_Capabilities
               </h2>
-              <div className="flex-1 h-[2px] bg-white/20" />
+              <div className="flex-1 h-[2px] bg-white/20" aria-hidden="true" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/20 border border-white/20">
@@ -128,36 +141,56 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
         </section>
 
         {/* Stats / Marquee */}
-        <section className="py-8 sm:py-12 border-t-4 border-ink overflow-hidden bg-accent text-white">
+        <section
+          className="py-8 sm:py-12 border-t-4 border-ink overflow-hidden bg-accent text-white"
+          aria-label="Key features marquee"
+        >
           <div className="flex whitespace-nowrap animate-marquee font-black text-4xl sm:text-6xl uppercase tracking-tighter py-4">
             <span className="mx-8">Market Intelligence</span>
-            <span className="mx-8 text-ink">×</span>
+            <span className="mx-8 text-ink" aria-hidden="true">
+              ×
+            </span>
             <span className="mx-8">Agentic Research</span>
-            <span className="mx-8 text-ink">×</span>
+            <span className="mx-8 text-ink" aria-hidden="true">
+              ×
+            </span>
             <span className="mx-8">Deep Synthesis</span>
-            <span className="mx-8 text-ink">×</span>
+            <span className="mx-8 text-ink" aria-hidden="true">
+              ×
+            </span>
             <span className="mx-8">Strategic Insight</span>
-            <span className="mx-8 text-ink">×</span>
+            <span className="mx-8 text-ink" aria-hidden="true">
+              ×
+            </span>
           </div>
         </section>
 
         {/* Footer */}
         <footer className="py-12 px-6 sm:px-12 lg:px-24 border-t-4 border-ink flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
           <div className="flex items-center gap-4">
-            <Activity className="w-8 h-8 text-accent" />
+            <Activity className="w-8 h-8 text-accent" aria-hidden="true" />
             <span className="font-black text-xl uppercase">InsightSprint</span>
           </div>
-          <div className="flex flex-wrap justify-center gap-8 text-[10px] font-black uppercase tracking-widest">
-            <a href="#" className="hover:text-accent transition-colors">
+          <nav
+            className="flex flex-wrap justify-center gap-8 text-[10px] font-black uppercase tracking-widest"
+            aria-label="Footer navigation"
+          >
+            <a
+              href="#documentation"
+              className="hover:text-accent transition-colors"
+            >
               Documentation
             </a>
-            <a href="#" className="hover:text-accent transition-colors">
+            <a href="#api" className="hover:text-accent transition-colors">
               API_Access
             </a>
-            <a href="#" className="hover:text-accent transition-colors">
+            <a
+              href="#enterprise"
+              className="hover:text-accent transition-colors"
+            >
               Enterprise
             </a>
-          </div>
+          </nav>
           <div className="text-[10px] font-black uppercase opacity-50">
             © 2026_GENAI_ZURICH_HACKATHON
           </div>

@@ -1,14 +1,36 @@
 {
-  "name": "react-example",
+  "name": "insightsprint",
+  "version": "2.0.0",
+  "description": "AI-powered market research platform that automates the entire research workflow. Get comprehensive market intelligence, competitor analysis, and strategic insights in minutes.",
+  "keywords": [
+    "market-research",
+    "ai",
+    "competitor-analysis",
+    "business-intelligence",
+    "market-intelligence",
+    "agentic-ai",
+    "research-automation",
+    "strategic-planning"
+  ],
+  "author": "InsightSprint Team",
+  "license": "MIT",
+  "homepage": "https://insightsprint.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/insightsprint"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/insightsprint/issues"
+  },
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "validate-seo": "node validate-seo.js"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

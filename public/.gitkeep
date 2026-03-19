@@ -1,0 +1,44 @@
+# Public Assets Directory
+
+## Required Images for SEO
+
+Please add the following images to this directory:
+
+1. **og-image.png** (1200x630px)
+   - For social media sharing (Facebook, LinkedIn, Twitter)
+   - Should include: InsightSprint logo, tagline, and key visual
+
+2. **favicon.svg**
+   - App icon for browser tabs
+   - Should be simple, recognizable at small sizes
+
+3. **apple-touch-icon.png** (180x180px)
+   - iOS home screen icon
+   - Should have no transparency
+
+4. **icon-192.png** (192x192px)
+   - PWA icon for Android
+   - Should work on light and dark backgrounds
+
+5. **icon-512.png** (512x512px)
+   - PWA icon for Android (high-res)
+   - Should work on light and dark backgrounds
+
+6. **screenshot.png** (1280x720px)
+   - App screenshot for listings
+   - Show the main interface in action
+
+7. **screenshot-wide.png** (1280x720px)
+   - PWA screenshot for desktop
+   - Show key features
+
+8. **screenshot-narrow.png** (750x1334px)
+   - PWA screenshot for mobile
+   - Show mobile interface
+
+## Design Guidelines
+
+- Use brand colors: Ink (#121212), Accent (#FF6B35), White (#FFFFFF)
+- Maintain brutalist design aesthetic
+- Keep text readable and bold
+- Use high contrast for accessibility
