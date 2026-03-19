@@ -12,6 +12,10 @@ coverage/
 .env*
 !.env.example
 
+# Firebase config with sensitive keys
+firebase-applet-config.json
+firebase-blueprint.json
+
 # OS files
 .DS_Store
 *.log
